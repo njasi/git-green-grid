@@ -25,27 +25,16 @@ public class Main {
 
     private static void pushToGit(int changeNum) throws IOException, InterruptedException { //
         String[][] commands = new String[][]{
-                new String[]{"git", "add", "-A"},
+                new String[]{"git", "add", "change.txt"},
                 new String[]{"git", "commit", "-m", "Daily Commit #" + changeNum},
                 new String[]{"git", "push"}};
+
         for (String[] command : commands) {
             Process process = Runtime.getRuntime().exec(command);
-
-
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-
             int out = process.waitFor();
-
-            if (out == 0) {
-                System.out.println("SUCCESS: " + command.toString());
-            } else {
-                System.out.println("FAILURE: " + command.toString());
+            if (out != 0) {
+                System.out.println("FAILURE");
+                break;
             }
         }
 //
