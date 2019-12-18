@@ -23,9 +23,17 @@ public class Main {
         return num + 1;
     }
 
-    private static void pushToGit(int changeNum) throws IOException, InterruptedException {
-        Runtime.getRuntime().exec("git add change.txt").waitFor();
-        Runtime.getRuntime().exec(String.format("git commit -m\"Daily commit #%d\"", changeNum)).waitFor();
-        Runtime.getRuntime().exec("git push").waitFor();
+    private static void pushToGit(int changeNum) throws IOException, InterruptedException { //
+        String[] commands = new String[]{"git add -A", String.format("git commit -m \"Daily commit #%d\"", changeNum), "git push"};
+        for (String command : commands) {
+
+            int out = Runtime.getRuntime().exec(command).waitFor();
+            if (out == 0) {
+                System.out.println("SUCCESS: " + command);
+            } else {
+                System.out.println("FAILURE: " + command);
+            }
+        }
+//
     }
 }
