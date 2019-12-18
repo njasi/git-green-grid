@@ -26,8 +26,19 @@ public class Main {
     private static void pushToGit(int changeNum) throws IOException, InterruptedException { //
         String[] commands = new String[]{"git add -A", String.format("git commit -m \"Daily commit #%d\"", changeNum), "git push"};
         for (String command : commands) {
+            Process process = Runtime.getRuntime().exec(command);
 
-            int out = Runtime.getRuntime().exec(command).waitFor();
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            int out = process.waitFor();
+
             if (out == 0) {
                 System.out.println("SUCCESS: " + command);
             } else {
