@@ -24,8 +24,11 @@ public class Main {
     }
 
     private static void pushToGit(int changeNum) throws IOException, InterruptedException { //
-        String[] commands = new String[]{"git add -A", String.format("git commit -m \"Daily commit #%d\"", changeNum), "git push"};
-        for (String command : commands) {
+        String[][] commands = new String[][]{
+                new String[]{"git", "add", "-A"},
+                new String[]{"git", "commit", "-m", "Daily Commit #" + changeNum},
+                new String[]{"git", "push"}};
+        for (String[] command : commands) {
             Process process = Runtime.getRuntime().exec(command);
 
 
@@ -40,9 +43,9 @@ public class Main {
             int out = process.waitFor();
 
             if (out == 0) {
-                System.out.println("SUCCESS: " + command);
+                System.out.println("SUCCESS: " + command.toString());
             } else {
-                System.out.println("FAILURE: " + command);
+                System.out.println("FAILURE: " + command.toString());
             }
         }
 //
